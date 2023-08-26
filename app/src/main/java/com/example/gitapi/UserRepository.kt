@@ -2,19 +2,15 @@ package com.example.gitapi
 
 class UserRepository(private val userDao: UserDao) {
 
-    suspend fun getUsersFromApiOrDatabase(): Any {
-        val cachedUsers = userDao.getUsers()
+    suspend fun getUsersFromApiOrDatabase(): List<User> {
 
-        if (cachedUsers.isEmpty()) {
-            val usersFromApi = fetchUsersFromApi()
-            userDao.insertUsers(usersFromApi)
-            return usersFromApi
-        }
+        val users = fetchUsersFromApi()
+        return users
 
-        return cachedUsers
     }
 
-    private suspend fun fetchUsersFromApi() {
-
+    private suspend fun fetchUsersFromApi(): List<User> {
+        val response = RetrofitClientModule.userService.getUsers()
+        return response.body() ?: emptyList()
     }
 }

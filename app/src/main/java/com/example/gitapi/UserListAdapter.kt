@@ -26,6 +26,14 @@ class UserListAdapter(private val onItemClick: (User) -> Unit) :
         return users.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return users[position].id.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return 0
+    }
+
     fun setUsers(newUsers: Any) {
         users = newUsers as List<User>
         notifyDataSetChanged()
@@ -39,5 +47,4 @@ class UserListAdapter(private val onItemClick: (User) -> Unit) :
             usernameTextView.text = user.login
         }
     }
-
 }
